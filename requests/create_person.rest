@@ -5,3 +5,7 @@ Content-Type: application/json
     "name": "asddf",
     "number": "123d4"
 }
+
+###
+
+GET http://localhost:3001/api/persons/

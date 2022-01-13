@@ -1,7 +1,9 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
   { 
@@ -64,13 +66,25 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-
-  /*if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+  
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'name is missing'
     })
   }
-  */
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number is missing'
+    })
+  }
+
+  if (persons.some(p => p.name.toUpperCase() === body.name.toUpperCase())) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
+
   const person = {
     name: body.name,
     number: body.number,
@@ -82,6 +96,12 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 
 const PORT = 3001
