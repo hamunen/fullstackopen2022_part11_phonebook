@@ -9,3 +9,14 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3001/api/persons/
+
+
+###
+
+POST https://intense-mountain-40451.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+    "name": "asddf",
+    "number": "123d4"
+}
