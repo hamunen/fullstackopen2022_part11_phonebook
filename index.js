@@ -67,15 +67,12 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const body = request.body
-
-  if (!body.number) {
-    return response.status(400).json({
-      error: 'number is missing'
-    })
-  }
-
-  Person.findOneAndUpdate(request.params.id, { number: body.number}, {new: true})
+  Person.findOneAndUpdate(
+    request.params.id
+    , { number: request.body.number}
+    , { runValidators: true, context: 'query', new: true }
+    //, {new: true}
+    )
     .then(updatedPerson => {
       response.json(updatedPerson)
     })
