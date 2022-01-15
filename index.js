@@ -73,7 +73,6 @@ app.put('/api/persons/:id', (request, response, next) => {
     , { runValidators: true, context: 'query', new: true }
     )
     .then(updatedPerson => {
-      console.log(updatedPerson)
       response.json(updatedPerson)
     })
     .catch(error => next(error))
