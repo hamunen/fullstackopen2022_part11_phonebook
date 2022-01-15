@@ -67,16 +67,6 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
-
-const generateId = () => {
-  let id = 0
-  do {
-    id = Math.floor(Math.random()*1000000)
-  } while (persons.some(person => person.id === id))
-
-  return id
-}
-
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
