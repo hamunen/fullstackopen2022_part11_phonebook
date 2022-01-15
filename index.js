@@ -8,7 +8,7 @@ const Person = require('./models/person')
 const app = express()
 
 app.use(cors())
-app.use(express.static('frontend_build'))
+app.use(express.static('build'))
 app.use(express.json())
 
 morgan.token('body', function(req, res) {
@@ -55,10 +55,9 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-
-  person ? response.json(person) : response.status(404).end()
+  Note.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -80,7 +79,7 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  
+
   if (!body.name) {
     return response.status(400).json({
       error: 'name is missing'
@@ -93,22 +92,22 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
+  /* 
   if (persons.some(p => p.name.toUpperCase() === body.name.toUpperCase())) {
     return response.status(400).json({
       error: 'name must be unique'
     })
-  }
+  }*/
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  }
+  })
 
-  persons = persons.concat(person)
-
-  response.json(person)})
-
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+})
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
