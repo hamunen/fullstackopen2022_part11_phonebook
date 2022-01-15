@@ -67,13 +67,13 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  Person.findOneAndUpdate(
+  Person.findByIdAndUpdate(
     request.params.id
     , { number: request.body.number}
     , { runValidators: true, context: 'query', new: true }
-    //, {new: true}
     )
     .then(updatedPerson => {
+      console.log(updatedPerson)
       response.json(updatedPerson)
     })
     .catch(error => next(error))
