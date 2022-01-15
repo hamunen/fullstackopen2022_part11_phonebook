@@ -11,9 +11,9 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 
-morgan.token('body', function(req, res) {
+morgan.token('body', function(req) {
   if (req.method === 'POST') return JSON.stringify(req.body)
-});
+})
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
@@ -24,14 +24,14 @@ app.get('/info', (request, response, next) => {
       <p>${Date()}</p>
     `))
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(people => {
     response.json(people)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -42,12 +42,12 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -63,15 +63,15 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndUpdate(
     request.params.id
-    , { number: request.body.number}
+    , { number: request.body.number }
     , { runValidators: true, context: 'query', new: true }
-    )
+  )
     .then(updatedPerson => {
       response.json(updatedPerson)
     })
@@ -89,9 +89,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
   if (error.name === 'ValidationError') {
-    return response.status(400).send( {error: error.message})
+    return response.status(400).send( { error: error.message })
   }
 
   next(error)
