@@ -20,3 +20,13 @@ Content-Type: application/json
     "name": "asddf",
     "number": "123d4"
 }
+
+###
+
+PUT http://localhost:3001/api/persons/61e2a36e07080b08d2399227
+Content-Type: application/json
+
+{
+    "name": "Jannu",
+    "number": "123456"
+}

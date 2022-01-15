@@ -48,10 +48,11 @@ app.get('/info', (request, response) => {
   `)
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(people => {
     response.json(people)
   })
+  .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -89,13 +90,6 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  /* 
-  if (persons.some(p => p.name.toUpperCase() === body.name.toUpperCase())) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }*/
-
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -106,6 +100,21 @@ app.post('/api/persons', (request, response) => {
   })
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number is missing'
+    })
+  }
+
+  Person.findOneAndUpdate(request.params.id, { number: body.number}, {new: true})
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
