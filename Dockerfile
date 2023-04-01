@@ -21,6 +21,8 @@ ENV NODE_ENV production
 
 COPY . .
 
+RUN chown -R root:root .
+
 RUN npm install && npm run build:ui
 FROM debian:bullseye
 
