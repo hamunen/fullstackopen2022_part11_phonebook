@@ -1,2 +1,3 @@
-# Phonebook backend
-https://intense-mountain-40451.herokuapp.com/api/persons
+# Fullstackopen 2022 - part 11 - own pipeline
+
+Using phonebook app from part 2 & 3
