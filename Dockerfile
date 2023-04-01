@@ -21,7 +21,7 @@ ENV NODE_ENV production
 
 COPY . .
 
-RUN npm install
+RUN npm install && npm run build
 FROM debian:bullseye
 
 LABEL fly_launch_runtime="nodejs"
@@ -32,7 +32,5 @@ COPY --from=builder /app /app
 WORKDIR /app
 ENV NODE_ENV production
 ENV PATH /root/.volta/bin:$PATH
-
-RUN chown -R nodejs:nodejs ./frontend/
 
 CMD [ "npm", "run", "start" ]
