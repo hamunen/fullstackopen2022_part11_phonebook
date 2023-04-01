@@ -9,16 +9,6 @@ processes = []
 [env]
   PORT = "8080"
 
-[deploy]
-  release_command = "npm run build:ui"
-
-[processes]
-  app = "node index.js"
-
-[build]
-  [build.args]
-    NODE_VERSION = "16.19.1"
-
 [experimental]
   auto_rollback = true
 
@@ -57,3 +47,13 @@ processes = []
     timeout = 2000
     tls_skip_verify = false
     [services.http_checks.headers]
+
+[deploy]
+  release_command = "npm run build:ui"
+
+[processes]
+  app = "node index.js"
+
+[build]
+  [build.args]
+    NODE_VERSION = "16.19.1"
