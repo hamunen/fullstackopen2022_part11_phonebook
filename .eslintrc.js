@@ -9,6 +9,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 13,
   },
+  plugins: ['jest'],
   rules: {
     indent: ['error', 2],
     eqeqeq: 'error',
