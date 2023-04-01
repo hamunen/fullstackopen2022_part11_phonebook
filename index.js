@@ -18,6 +18,14 @@ app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 )
 
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
+app.get('/version', (req, res) => {
+  res.send('1')
+})
+
 app.get('/info', (request, response, next) => {
   Person.count({})
     .then((result) => {

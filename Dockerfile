@@ -33,4 +33,6 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV PATH /root/.volta/bin:$PATH
 
+RUN chown -R node:node ./frontend/
+
 CMD [ "npm", "run", "start" ]
